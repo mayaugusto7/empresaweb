@@ -71,10 +71,11 @@ public class EmpresaMB {
 		return empresa;
 	}
 	
-	public void remove(Long id) {
+	public void remover() {
 		this.repositorio.remove(empresa);
 		FacesContext.getCurrentInstance().addMessage(
 				null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Empresa removida com sucesso!", null));
+		this.empresa = new Empresa();
 		this.empresasCache = repositorio.getAll();
 	}
 

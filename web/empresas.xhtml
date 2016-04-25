@@ -8,15 +8,20 @@
 
 	<h:head>
 		<title>Empresas</title>
-		<h:outputStylesheet library="css" name="stilos.css"/>
+		<h:outputStylesheet library="css" name="css/stilos.css"/>
 	</h:head>	
 	
 	<h:body>
 		
+		<div id="logo">
+			<img src="assets/images/empresa.png" alt="Empresas" style="padding: 3px; float: right;" />
+		</div>
+	
+		
 		<h:form>
 			<p:messages id="messages"/>	
 	
-			<p:panelGrid columns="2" columnClasses="no-border, no-border">
+			<h:panelGrid columns="2" cellspacing="2">
 				
 				<h:inputHidden value="#{empresaMB.empresa.id}" />
 				<br/>
@@ -33,19 +38,21 @@
 				<p:outputLabel value="Data de Fundação:"/>
 				<p:calendar value="#{empresaMB.empresa.dataFundacao}" pattern="MM/dd/yyyy"/>
 			
+				<h:inputHidden/>
 				<p:commandButton value="SALVAR" icon="ui-icon-star" ajax="false"
 								action="#{empresaMB.adiciona}" update="messages"
+								style="margin-left: 70px; margin-top: 20px;"
 								>
 				</p:commandButton>
 			
-			</p:panelGrid>
+			</h:panelGrid>
 		</h:form>
 		
 		<br />
 		<br />
 
 		<h:form id="form">
-			<p:dataTable id="dgEmpresa" var="empresa" value="#{empresaMB.empresas}">
+			<p:dataTable id="dgEmpresa" var="empresa" value="#{empresaMB.empresas}" paginator="true" rows="20" lazy="true" >
 				<p:column headerText="Id">
                        <h:outputText value="#{empresa.id}" />
                 </p:column>
@@ -63,7 +70,9 @@
                 </p:column>
 
 				<p:column headerText="Data de Fundação">
-                       <h:outputText value="#{empresa.dataFundacao}" />
+                       <h:outputText value="#{empresa.dataFundacao}">
+                     	  <f:convertDateTime pattern="dd-MM-yyyy" />
+                       </h:outputText>
                 </p:column>
                 
            		<p:column>
@@ -73,7 +82,7 @@
                         <f:setPropertyActionListener value="#{empresa}" target="#{empresaMB.empresa}" />
                     </p:commandButton>
                         <!-- Abaixo temos o botão excluir com a propriedade onclick contendo o nome do modal e acessando um método de abri-lo que é o show, também existe o hide que é para feixa-lo.-->
-                    <p:commandButton action="#{empresaMB.remove(empresa.id)}" value="EXCLUIR" title="Excluir"  style="margin-left: 5px" ajax="false">
+                    <p:commandButton action="#{empresaMB.remover}" value="EXCLUIR" title="Excluir"  style="margin-left: 5px" ajax="false">
                         <!-- Abaixo temos o setPropertyActionListener que é utilizado para pegar o objeto cli e setar no objeto cliente la no nosso bean, para posteriomente excluirmos-->
                         <f:setPropertyActionListener value="#{empresa}" target="#{empresaMB.empresa}" />
                     </p:commandButton>

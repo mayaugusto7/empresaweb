@@ -24,6 +24,7 @@ public class EmpresaRepository {
 	}
 	
 	public void remove(Empresa empresa) {
+		empresa = manager.merge(empresa);
 		this.manager.remove(empresa);
 	}
 	
