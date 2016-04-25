@@ -22,7 +22,7 @@ public class Filial {
 	private String nome;
 	
 	@Column(nullable = false)
-	private String cpnj;
+	private String cnpj;
 	
 	@Temporal(TemporalType.DATE)
 	private Date dataFundacao;
@@ -46,12 +46,12 @@ public class Filial {
 		this.nome = nome;
 	}
 
-	public String getCpnj() {
-		return cpnj;
+	public String getCnpj() {
+		return cnpj;
 	}
 
-	public void setCpnj(String cpnj) {
-		this.cpnj = cpnj;
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 
 	public Date getDataFundacao() {

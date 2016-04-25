@@ -1,93 +1,115 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      >
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-	<h:head>
-		<title>Empresas</title>
-		<h:outputStylesheet library="css" name="css/stilos.css"/>
-	</h:head>	
-	
-	<h:body>
-		
-		<div id="logo">
-			<img src="assets/images/empresa.png" alt="Empresas" style="padding: 3px; float: right;" />
-		</div>
-	
-		
-		<h:form>
-			<p:messages id="messages"/>	
-	
-			<h:panelGrid columns="2" cellspacing="2">
+<h:head>
+	<title>Empresas</title>
+	<h:outputStylesheet library="css" name="css/stilos.css" />
+</h:head>
+
+<h:body>
+
+	<div id="logo">
+		<img src="assets/images/empresa.png" alt="Empresas"
+			style="padding: 3px; float: right;" />
+	</div>
+
+
+	<h:form>
+		<p:messages id="messages" />
+
+		<h:panelGrid columns="2" cellspacing="2">
+
+			<h:inputHidden value="#{empresaMB.empresa.id}" />
+			<br />
+
+			<p:outputLabel value="Nome:" />
+			<p:inputText value="#{empresaMB.empresa.nome}" />
+
+			<p:outputLabel value="CNPJ:" />
+			<p:inputMask mask="999.999.999/9999-99"
+				value="#{empresaMB.empresa.cnpj}" />
+
+			<p:outputLabel value="Endereço:" />
+			<p:inputText value="#{empresaMB.empresa.endereco}" />
+
+			<p:outputLabel value="Data de Fundação:" />
+			<p:calendar value="#{empresaMB.empresa.dataFundacao}"
+				pattern="MM/dd/yyyy" />
+
+			<h:inputHidden />
+			<p:commandButton value="SALVAR" icon="ui-icon-star" ajax="false"
+				action="#{empresaMB.adiciona}" update="messages"
+				style="margin-left: 70px; margin-top: 20px;">
+			</p:commandButton>
+
+		</h:panelGrid>
+	</h:form>
+
+	<br />
+	<br />
+
+	<h:form id="form">
+		<p:dataTable id="dgEmpresa" var="empresa"
+			value="#{empresaMB.empresas}" paginator="true" rows="20" lazy="true">
+			
+			<f:facet name="header">
+				Expand rows to see detailed information
+			</f:facet>
+			
+			<p:column>
+				<p:rowToggler />
+			</p:column>
+
+			<p:rowExpansion>
+				<p:dataTable id="dgFilial" var="filial">
 				
-				<h:inputHidden value="#{empresaMB.empresa.id}" />
-				<br/>
+				</p:dataTable>
+			</p:rowExpansion>
 			
-				<p:outputLabel value="Nome:"/>
-				<p:inputText value="#{empresaMB.empresa.nome}" />
-			
-				<p:outputLabel value="CNPJ:"/>
-				<p:inputMask mask="999.999.999/9999-99" value="#{empresaMB.empresa.cnpj}" />
-			
-				<p:outputLabel value="Endereço:"/>
-				<p:inputText value="#{empresaMB.empresa.endereco}" />
-			
-				<p:outputLabel value="Data de Fundação:"/>
-				<p:calendar value="#{empresaMB.empresa.dataFundacao}" pattern="MM/dd/yyyy"/>
-			
-				<h:inputHidden/>
-				<p:commandButton value="SALVAR" icon="ui-icon-star" ajax="false"
-								action="#{empresaMB.adiciona}" update="messages"
-								style="margin-left: 70px; margin-top: 20px;"
-								>
+			<p:column headerText="Id">
+				<h:outputText value="#{empresa.id}" />
+			</p:column>
+
+			<p:column headerText="Nome">
+				<h:outputText value="#{empresa.nome}" />
+			</p:column>
+
+			<p:column headerText="CNPJ">
+				<h:outputText value="#{empresa.cnpj}" />
+			</p:column>
+
+			<p:column headerText="Endereço">
+				<h:outputText value="#{empresa.endereco}" />
+			</p:column>
+
+			<p:column headerText="Data de Fundação">
+				<h:outputText value="#{empresa.dataFundacao}">
+					<f:convertDateTime pattern="dd-MM-yyyy" />
+				</h:outputText>
+			</p:column>
+
+			<p:column>
+				<!--Abaixo o botão editar com uma Action do nosso metodo editar que criamos no Bean-->
+				<p:commandButton action="#{empresaMB.editar(empresa.id)}"
+					value="EDITAR" title="Editar" ajax="false">
+					<!-- Abaixo temos o setPropertyActionListener que é utilizado para pegar o objeto cli e setar no objeto cliente la no nosso bean, para editarmos-->
+					<f:setPropertyActionListener value="#{empresa}"
+						target="#{empresaMB.empresa}" />
 				</p:commandButton>
-			
-			</h:panelGrid>
-		</h:form>
-		
-		<br />
-		<br />
+				<!-- Abaixo temos o botão excluir com a propriedade onclick contendo o nome do modal e acessando um método de abri-lo que é o show, também existe o hide que é para feixa-lo.-->
+				<p:commandButton action="#{empresaMB.remover}" value="EXCLUIR"
+					title="Excluir" style="margin-left: 5px" ajax="false">
+					<!-- Abaixo temos o setPropertyActionListener que é utilizado para pegar o objeto cli e setar no objeto cliente la no nosso bean, para posteriomente excluirmos-->
+					<f:setPropertyActionListener value="#{empresa}"
+						target="#{empresaMB.empresa}" />
+				</p:commandButton>
+			</p:column>
 
-		<h:form id="form">
-			<p:dataTable id="dgEmpresa" var="empresa" value="#{empresaMB.empresas}" paginator="true" rows="20" lazy="true" >
-				<p:column headerText="Id">
-                       <h:outputText value="#{empresa.id}" />
-                </p:column>
-			
-				<p:column headerText="Nome">
-                       <h:outputText value="#{empresa.nome}" />
-                </p:column>
-			
-				<p:column headerText="CNPJ">
-                       <h:outputText value="#{empresa.cnpj}" />
-                </p:column>
-			
-				<p:column headerText="Endereço">
-                       <h:outputText value="#{empresa.endereco}" />
-                </p:column>
-
-				<p:column headerText="Data de Fundação">
-                       <h:outputText value="#{empresa.dataFundacao}">
-                     	  <f:convertDateTime pattern="dd-MM-yyyy" />
-                       </h:outputText>
-                </p:column>
-                
-           		<p:column>
-                    <!--Abaixo o botão editar com uma Action do nosso metodo editar que criamos no Bean-->
-                    <p:commandButton action="#{empresaMB.editar(empresa.id)}" value="EDITAR" title="Editar" ajax="false" >
-                        <!-- Abaixo temos o setPropertyActionListener que é utilizado para pegar o objeto cli e setar no objeto cliente la no nosso bean, para editarmos-->
-                        <f:setPropertyActionListener value="#{empresa}" target="#{empresaMB.empresa}" />
-                    </p:commandButton>
-                        <!-- Abaixo temos o botão excluir com a propriedade onclick contendo o nome do modal e acessando um método de abri-lo que é o show, também existe o hide que é para feixa-lo.-->
-                    <p:commandButton action="#{empresaMB.remover}" value="EXCLUIR" title="Excluir"  style="margin-left: 5px" ajax="false">
-                        <!-- Abaixo temos o setPropertyActionListener que é utilizado para pegar o objeto cli e setar no objeto cliente la no nosso bean, para posteriomente excluirmos-->
-                        <f:setPropertyActionListener value="#{empresa}" target="#{empresaMB.empresa}" />
-                    </p:commandButton>
-	   			</p:column>
-			</p:dataTable>
-		</h:form>
-	</h:body>
+		</p:dataTable>
+	</h:form>
+</h:body>
 </html>

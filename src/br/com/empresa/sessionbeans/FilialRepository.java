@@ -23,8 +23,8 @@ public class FilialRepository {
 		this.manager.merge(filial);
 	}
 	
-	public void removeById(Long id) {
-		Filial filial = this.manager.find(Filial.class, id);
+	public void remove(Filial filial) {
+		filial = manager.merge(filial);
 		this.manager.remove(filial);
 	}
 	
