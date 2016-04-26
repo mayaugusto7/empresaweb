@@ -22,9 +22,11 @@ O EJB (Enterprise Java Beans) é um componente da plataforma JEE que roda em um 
 
 * IDE Eclipse
 
-
 # Configurações necessarias Glassfish
 
+1 Acesse a pagina de administração do Glassfish http://localhost:4848/
+
+2 Va para Resources -> JDBC -> JDBC Connection Pools
 
 
 
