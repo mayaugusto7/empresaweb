@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Empresas</title>
+	<title>Filiais</title>
 	<h:outputStylesheet library="css" name="css/stilos.css" />
 </h:head>
 
@@ -23,26 +23,31 @@
 
 		<h:panelGrid columns="2" cellspacing="2">
 
-			<h:inputHidden value="#{empresaMB.empresa.id}" />
+			<h:inputHidden value="#{filialMB.filial.id}" />
 			<br />
 
 			<p:outputLabel value="Nome:" />
-			<p:inputText value="#{empresaMB.empresa.nome}" />
+			<p:inputText value="#{filialMB.filial.nome}" />
 
 			<p:outputLabel value="CNPJ:" />
 			<p:inputMask mask="999.999.999/9999-99"
-				value="#{empresaMB.empresa.cnpj}" />
+				value="#{filialMB.filial.cnpj}" />
 
 			<p:outputLabel value="Endereço:" />
-			<p:inputText value="#{empresaMB.empresa.endereco}" />
+			<p:inputText value="#{filialMB.filial.endereco}" />
 
 			<p:outputLabel value="Data de Fundação:" />
-			<p:calendar value="#{empresaMB.empresa.dataFundacao}"
+			<p:calendar value="#{filialMB.filial.dataFundacao}"
 				pattern="MM/dd/yyyy" />
+				
+			<p:outputLabel value="Matriz:"/>
+			<p:selectOneMenu value="#{filialMB.empresaId}">
+					<f:selectItems value="#{empresaMB.empresas}" var="empresa" itemLabel="#{empresa.nome}" itemValue="#{empresa.id}"/>
+			</p:selectOneMenu>
 
 			<h:inputHidden />
 			<p:commandButton value="SALVAR" icon="ui-icon-star" ajax="false"
-				action="#{empresaMB.adiciona}" update="messages"
+				action="#{filialMB.adiciona}" update="messages"
 				style="margin-left: 70px; margin-top: 20px;">
 			</p:commandButton>
 
@@ -53,85 +58,49 @@
 	<br />
 
 	<h:form id="form">
-		<p:dataTable id="dgEmpresa" var="empresa"
-			value="#{empresaMB.empresas}" paginator="true" rows="5" lazy="true">
-			
-			<f:facet name="header">
-				Expanda as rows para ver as filiais de cada empresa.
-			</f:facet>
-			
-			<p:column>
-				<p:rowToggler />
-			</p:column>
-
-			<p:rowExpansion>
-				<p:dataTable id="dgFilial" filteredValue="#{empresaMB.empresa.id}" var="filial" value="#{filialMB.filiais}" rows="5" lazy="true">
-					
-					<p:column headerText="Id">
-						<h:outputText value="#{filial.id}" />
-					</p:column>
-	
-					<p:column headerText="Nome">
-						<h:outputText value="#{filial.nome}" />
-					</p:column>
-	
-					<p:column headerText="CNPJ">
-						<h:outputText value="#{filial.cnpj}" />
-					</p:column>
-	
-					<p:column headerText="Endereço">
-						<h:outputText value="#{filial.endereco}" />
-					</p:column>
-	
-					<p:column headerText="Data de Fundação">
-						<h:outputText value="#{filial.dataFundacao}">
-							<f:convertDateTime pattern="dd-MM-yyyy" />
-						</h:outputText>
-					</p:column>
-				
-					<p:column headerText="Matriz ID" visible="false">
-						<h:outputText value="#{filial.empresa.id}" />
-					</p:column>
-					
-				</p:dataTable>
-			</p:rowExpansion>
+		<p:dataTable id="dgFilial" var="filial"
+			value="#{filialMB.filiais}" paginator="true" rows="20" sortBy="#{filial.id}">
 			
 			<p:column headerText="Id">
-				<h:outputText value="#{empresa.id}" />
+				<h:outputText value="#{filial.id}" />
 			</p:column>
 
 			<p:column headerText="Nome">
-				<h:outputText value="#{empresa.nome}" />
+				<h:outputText value="#{filial.nome}" />
 			</p:column>
 
 			<p:column headerText="CNPJ">
-				<h:outputText value="#{empresa.cnpj}" />
+				<h:outputText value="#{filial.cnpj}" />
 			</p:column>
 
 			<p:column headerText="Endereço">
-				<h:outputText value="#{empresa.endereco}" />
+				<h:outputText value="#{filial.endereco}" />
 			</p:column>
 
 			<p:column headerText="Data de Fundação">
-				<h:outputText value="#{empresa.dataFundacao}">
+				<h:outputText value="#{filial.dataFundacao}">
 					<f:convertDateTime pattern="dd-MM-yyyy" />
 				</h:outputText>
 			</p:column>
 
+			<p:column headerText="Matriz">
+				<h:outputText value="#{filial.empresa.nome}" />
+			</p:column>
+
 			<p:column>
 				<!--Abaixo o botão editar com uma Action do nosso metodo editar que criamos no Bean-->
-				<p:commandButton action="#{empresaMB.editar(empresa.id)}"
+				<p:commandButton action="#{filialMB.editar(filial.id)}"
 					value="EDITAR" title="Editar" ajax="false">
 					<!-- Abaixo temos o setPropertyActionListener que é utilizado para pegar o objeto cli e setar no objeto cliente la no nosso bean, para editarmos-->
-					<f:setPropertyActionListener value="#{empresa}"
-						target="#{empresaMB.empresa}" />
+					<f:setPropertyActionListener value="#{filial}"
+						target="#{filialMB.filial}" />
 				</p:commandButton>
 				<!-- Abaixo temos o botão excluir com a propriedade onclick contendo o nome do modal e acessando um método de abri-lo que é o show, também existe o hide que é para feixa-lo.-->
-				<p:commandButton action="#{empresaMB.remover}" value="EXCLUIR"
+				<p:commandButton action="#{filialMB.remover}" value="EXCLUIR"
 					title="Excluir" style="margin-left: 5px" ajax="false">
 					<!-- Abaixo temos o setPropertyActionListener que é utilizado para pegar o objeto cli e setar no objeto cliente la no nosso bean, para posteriomente excluirmos-->
-					<f:setPropertyActionListener value="#{empresa}"
-						target="#{empresaMB.empresa}" />
+					<f:setPropertyActionListener value="#{filial}"
+						target="#{filialMB.filial}" />
 				</p:commandButton>
 			</p:column>
 

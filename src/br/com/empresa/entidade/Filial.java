@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,11 +24,13 @@ public class Filial {
 	
 	@Column(nullable = false)
 	private String cnpj;
+
+	private String endereco;
 	
 	@Temporal(TemporalType.DATE)
 	private Date dataFundacao;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Empresa empresa;
 
 	public Long getId() {
@@ -52,6 +55,14 @@ public class Filial {
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+	
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 
 	public Date getDataFundacao() {

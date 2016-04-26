@@ -7,7 +7,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import br.com.empresa.entidade.Empresa;
 import br.com.empresa.entidade.Filial;
+import br.com.empresa.sessionbeans.EmpresaRepository;
 import br.com.empresa.sessionbeans.FilialRepository;
 
 @ManagedBean
@@ -15,10 +17,15 @@ public class FilialMB {
 
 	@EJB
 	private FilialRepository repositorio;
+	
+	@EJB
+	private EmpresaRepository empresaRepositorio;
 
 	private Filial filial = new Filial();
 
 	private List<Filial> filiaisCache;
+	
+	private Long empresaId;
 
 	public void adiciona() {
 
@@ -31,6 +38,8 @@ public class FilialMB {
 			}
 		} else {
 			if (validarCampos()) {
+				Empresa empresa = empresaRepositorio.find(empresaId);
+				this.filial.setEmpresa(empresa);
 				this.repositorio.save(this.filial);
 				FacesContext.getCurrentInstance().addMessage(
 						null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Filial cadastrada com sucesso!", null));
@@ -57,7 +66,7 @@ public class FilialMB {
 		return true;
 	}
 
-	public List<Filial> getEmpresas() {
+	public List<Filial> getFiliais() {
 
 		if (this.filiaisCache == null) {
 			this.filiaisCache = this.repositorio.getAll();
@@ -85,6 +94,14 @@ public class FilialMB {
 
 	public void setFilial(Filial filial) {
 		this.filial = filial;
+	}
+
+	public Long getEmpresaId() {
+		return empresaId;
+	}
+
+	public void setEmpresaId(Long empresaId) {
+		this.empresaId = empresaId;
 	}
 	
 }

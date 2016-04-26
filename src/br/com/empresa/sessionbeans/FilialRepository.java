@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
 import br.com.empresa.entidade.Filial;
 
@@ -28,9 +28,11 @@ public class FilialRepository {
 		this.manager.remove(filial);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<Filial> getAll() {
-		TypedQuery<Filial> query = manager.createQuery("SELECT f FROM Filial ", Filial.class);
-		return query.getResultList();
+		Query query = manager.createQuery("SELECT f FROM Filial f LEFT JOIN FETCH f.empresa e ");
+		List<Filial> filiais = query.getResultList();
+		return filiais;
 	}
 	
 	public Filial find(Long id) {
