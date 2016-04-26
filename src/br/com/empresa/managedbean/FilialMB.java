@@ -75,6 +75,15 @@ public class FilialMB {
 		return this.filiaisCache;
 	}
 
+	public List<Filial> getFiliaisPorEmpresa(Long id) {
+		
+		if (this.filiaisCache == null) {
+			this.filiaisCache = this.repositorio.getAllFiliais(id);
+		}
+		
+		return this.filiaisCache;
+	}
+
 	public Filial editar(Long id) {
 		this.filial = this.repositorio.find(id);
 		return filial;

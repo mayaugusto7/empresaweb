@@ -38,4 +38,19 @@ public class FilialRepository {
 	public Filial find(Long id) {
 		return this.manager.find(Filial.class, id);
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Filial> getAllFiliais(Long id) {
+		
+		StringBuilder jpql = new StringBuilder();
+		
+		jpql.append("SELECT f FROM Filial f WHERE f.empresa.id = :id");
+		
+		Query query = manager.createQuery(jpql.toString());
+		query.setParameter("id", id);
+		
+		List<Filial> filiais = query.getResultList();
+		
+		return filiais;
+	}
 }

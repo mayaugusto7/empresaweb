@@ -65,7 +65,7 @@
 			</p:column>
 
 			<p:rowExpansion>
-				<p:dataTable id="dgFilial" filteredValue="#{empresaMB.empresa.id}" var="filial" value="#{filialMB.filiais}" rows="5" lazy="true">
+				<p:dataTable id="dgFilial" var="filial" value="#{filialMB.getFiliaisPorEmpresa(empresa.id)}" rows="5" lazy="true">
 					
 					<p:column headerText="Id">
 						<h:outputText value="#{filial.id}" />
@@ -96,7 +96,7 @@
 				</p:dataTable>
 			</p:rowExpansion>
 			
-			<p:column headerText="Id">
+			<p:column headerText="Id" filterBy="#{empresa.id}">
 				<h:outputText value="#{empresa.id}" />
 			</p:column>
 
