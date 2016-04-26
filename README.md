@@ -1,6 +1,6 @@
 # empresaweb
 
-Projeto JEE, usando os frameworks JSF 2.2, Primefaces 5.3 e EclipseLink.
+Projeto JEE, usando os frameworks JSF 2.2, Primefaces 5.3 e EclipseLink. 
 Este projeto tem como objetivo prover conhecimentos sobre o EJB 3.1.
 O EJB (Enterprise Java Beans) é um componente da plataforma JEE que roda em um container de um servidor de aplicação.
 
@@ -16,11 +16,17 @@ O EJB (Enterprise Java Beans) é um componente da plataforma JEE que roda em um 
 
 # Requisitos de execução
 
-* MySQL
+* Banco de dados MySQL
 
-* Glassfish 4.1.1
+* Servidor de aplicação Glassfish 4.1.1
 
-* Eclipse
+* IDE Eclipse
+
+
+# Configurações necessarias Glassfish
+
+
+
 
 
 
